@@ -14,4 +14,13 @@ Kf = 2*pi*r*N*beta;
 num = [Kf];
 den = [(L*m), (L*b+R*m), (L*k+R*b + Kf^2), R*k];
 
+figure(1);
 step(num, den)
+stepinfo(tf(num, den))
+
+figure(2);
+bode(tf(num, den))
+
+%% part 4
+
+bode(tf(num,den), 100:30000)
