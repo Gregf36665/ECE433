@@ -16,3 +16,6 @@ r_d = 0.05;
 
 Ka = eta_g * Kg * eta_m * kt / Jeq;
 Kb = km * Kg;
+
+I_inf = Beq/(Kb*Ka*Jeq+Rm*Beq)
+w_inf = Ka*Jeq/(Kb*Ka*Jeq+Rm*Beq)
