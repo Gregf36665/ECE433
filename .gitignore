@@ -1,2 +1,6 @@
-# don't push html folder
-html/*
+# allow NOTHING
+*
+# let matlab and simulink files through
+!*.m
+!*.slx
+!*.fig
