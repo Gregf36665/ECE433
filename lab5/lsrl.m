@@ -45,6 +45,32 @@ Ei = sqrt((Ry - Ryw*inv(Rw)*Rwy)/Ry)
 alpha = 1/K(1)
 tau = alpha*K(2)
 
+%% Calc ideal cutoff freq
+fs = 1000;
+index = 21:length(t)-20;
+%frequency vectors
+for f = [1:400]
+    fcm = f/(fs/2);
+    [b,a] = butter(2, fcm);
+    % Find motor speed
+    dtheta = diff(theta)*fs;
+    % remove phase shift by passing forwards and backwords
+    wff = filtfilt(b,a,dtheta);
+    %find derivative
+    dwff = filtfilt(b,a,diff(wff) * fs);
+    % find error
+    W = [dwff(index), wff(index)];
+    Y = [Vm(index)];
+
+    Rw = transpose(W) * W;
+    Ry = transpose(Y) * Y;
+    Rwy = transpose(W) * Y;
+    Ryw = transpose(Rwy);
+    Ei_list(f) = sqrt((Ry - Ryw*inv(Rw)*Rwy)/Ry);
+end
+
+plot(Ei_list)
+[Ei_min, freq_min] = min(Ei_list)
 %% Compare with new parameter simulation
 
 Etheta_rms = sqrt(sum(theta(index)-theta_sim(index))^2/sum(theta(index))^2)*100
