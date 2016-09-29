@@ -4,3 +4,7 @@
 !*.m
 !*.slx
 !*.fig
+# Allow m files in sub dirs
+!/*.m
+!/*.slx
+!/*.fig
