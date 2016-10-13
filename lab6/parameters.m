@@ -1,3 +1,7 @@
+clear
+
+%% Motor parameters
+
 Rm = 2.6; % +/- 12%
 Lm = 0.18e-3;
 kt = 7.68e-3; % +/- 12%
@@ -17,5 +21,21 @@ r_d = 0.05;
 Ka = eta_g * Kg * eta_m * kt / Jeq;
 Kb = km * Kg;
 
-I_inf = Beq/(Kb*Ka*Jeq+Rm*Beq)
-w_inf = Ka*Jeq/(Kb*Ka*Jeq+Rm*Beq)
+I_inf = Beq/(Kb*Ka*Jeq+Rm*Beq);
+w_inf = Ka*Jeq/(Kb*Ka*Jeq+Rm*Beq);
+
+alpha = 66.9379;
+tau = 39.3285;
+
+%% Calculate Kp, Ki for %OS and Ts
+
+OS = str2double(input('Percent Overshoot: ', 's'));
+Ts = str2double(input('Settling Time: ', 's'));
+
+temp = (log(OS/100))^2;
+zeta = sqrt(temp/(temp+pi^2));
+
+omega_n = 4/(zeta*Ts);
+
+Ki = omega_n^2/alpha
+Kp = (2*zeta*omega_n-tau)/(alpha)
