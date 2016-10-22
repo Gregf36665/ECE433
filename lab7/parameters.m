@@ -35,8 +35,9 @@ Ts = input('Settling Time: ', 's');
 Ts = str2double(Ts);
 
 % Calculate damping ratio and natural frequency from control parameters
-lnpart = (log(100/OS))^2;
-zeta = sqrt(lnpart/(pi^2 + lnpart));
+%lnpart = (log(100/OS))^2;
+%zeta = sqrt(lnpart/(pi^2 + lnpart));
+zeta = 1;
 
 omega = 4/(zeta*Ts);
 
