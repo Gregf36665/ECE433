@@ -1,5 +1,7 @@
 # allow NOTHING
 *
+# Allow subdirs
+!/*
 # let matlab and simulink files through
 !*.m
 !*.slx
