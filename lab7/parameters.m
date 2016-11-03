@@ -22,8 +22,12 @@ Kb = km * Kg;
 I_inf = Beq/(Kb*Ka*Jeq+Rm*Beq)
 w_inf = Ka*Jeq/(Kb*Ka*Jeq+Rm*Beq)
 
-alpha = 66.9379;
-tau = 39.3285;
+%GF/IM motor
+% alpha = 66.9379;
+% tau = 39.3285;
+%KP/SB motor
+alpha = 87.7886;
+tau = 52.1073;
 
 %% Calculate control parameters for pos control
 
