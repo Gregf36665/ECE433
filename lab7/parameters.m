@@ -55,11 +55,11 @@ Kd = (2*zeta*omega+p-tau)/alpha
 Kp = (omega^2+2*zeta*omega*p)/alpha
 Ki = (omega^2*p)/alpha
 
-%% plot magic
-
-subplot(2,1,1);
-plot(t,pos,t,pos_input);
-title('Input and output vs time');
-subplot(2,1,2);
-plot(t,pos_error);
-title('Steady state error');
+% %% plot magic
+% 
+% subplot(2,1,1);
+% plot(t,pos,t,pos_input);
+% title('Input and output vs time');
+% subplot(2,1,2);
+% plot(t,pos_error);
+% title('Steady state error');
