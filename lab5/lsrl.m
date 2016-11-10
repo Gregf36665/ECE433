@@ -4,12 +4,14 @@ clear
 
 load data
 
-% Parse the data file
-t = Vm(:,1);
-Vm = Vm(:,2);
-W_tach= omega(:,2);
-theta = theta(:,2);
 
+% Parse the data file
+t = data(1,:);
+Vm = data(2,:);
+W_tach= data(3,:);
+theta = data(4,:);
+
+%%
 % Set frequencies
 fs = 1000; % sampling rate 1khz
 fc = 35; % cutoff frequency
@@ -40,7 +42,7 @@ Ryw = transpose(Rwy);
 
 K = Rw \ Rwy; % \ is inverse not escape
 
-Ei = sqrt((Ry - Ryw*inv(Rw)*Rwy)/Ry)
+Ei = sqrt((Ry - Ryw*inv(Rw)*Rwy)/Ry);
 
 alpha = 1/K(1)
 tau = alpha*K(2)
