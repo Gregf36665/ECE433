@@ -152,26 +152,10 @@ void setup(void) {
   rgb_sensor.begin();
   pinMode(4, OUTPUT);
   digitalWrite(4, LOW); // @gremlins Bright light, bright light!
-  DDRD = 0xFF
+  DDRD = 0xFF;
 }
 
 //red_block R:19816 G:5807 B:5499 C:31122
-//
-
-//Threshold Values for Block Detection
-#define LOW_RED_THRESH
-#define LOW_GREEN_THRESH
-#define LOW_BLUE_THRESH 
-#define LUX_THRESH
-
-//Digital Codes for each of the blocks 
-#define RED_CODE 0x08
-#define GREEN_CODE 0x09
-#define BLUE_CODE 0x0a
-#define YELLOW_CODE 0x0b
-#define ORANGE_CODE 0x0c
-#define WHITE_CODE 0x0d
-#define NOTHING_CODE 0x0e
 
 void loop(void) {
   rgb_sensor.getData();
@@ -223,27 +207,65 @@ void loop(void) {
   Serial.print(F(" CT:")); 
   Serial.print(rgb_sensor.ct);
   Serial.println(F("K")); 
-  
+
+
+  Serial.println(F("Status: ")); 
+  Serial.println(PORTD, HEX); 
   Serial.println();
+  
+  //RED
+  // yellow - 24k
+  // red - 12k
+  // orange - 20k
+  // blue - 9k
+  // green - 8k
+  // white - 19k
 
-  if(rgb_sensor.r_comp > LOW_RED_THRESH){
+  //GREEN
+  // white - 11k
+  // yellow - 20k
+  // orange - 8k
+  // red - 7k
 
-    if(rgb_sensor.g_comp > LOW_GREEN_THRESH){ 
-      if(yellow)PORTD = YELLOW_CODE
-      else PORTD = WHITE_CODE
-    }else{
-      if(red) PORTD = RED_CODE
-      else PORTD = ORANGE_CODE
-    }
-    
-  }else{
-    
-    if(rgb_sensor.b_comp > LOW_BLUE_THRESH) PORTD =  BLUE_CODE
-    else{
-      if(rgb_sensor.lux > LUX_THRESH) PORTD = GREEN_CODE
-      else PORTD = NOTHING_CODE
-    }
-  }
+  //BLUE
+  // green - 6.3K
+  // blue - 12K
+  
+
+  //Threshold Values for Block Detection
+  #define RED_THRESH 11000
+  #define GREEN_THRESH 9500
+  #define BLUE_THRESH 7000
+  #define YELLOW_THRESH 1400
+  #define ORANGE_THRESH 14000
+  #define LUX_THRESH 650
+  
+  //Digital Codes for each of the blocks 
+  #define RED_CODE 0x08
+  #define GREEN_CODE 0x09
+  #define BLUE_CODE 0x0a
+  #define YELLOW_CODE 0x0b
+  #define ORANGE_CODE 0x0c
+  #define WHITE_CODE 0x0d
+  #define NOTHING_CODE 0x0e
+
+  if(rgb_sensor.lux > LUX_THRESH){
+      if(rgb_sensor.r_comp > RED_THRESH){
+        if(rgb_sensor.g_comp > GREEN_THRESH){
+          if(rgb_sensor.lux > YELLOW_THRESH)PORTD = YELLOW_CODE;
+          else PORTD = WHITE_CODE;
+        }
+        else{
+          if(rgb_sensor.r_comp > ORANGE_THRESH) PORTD = ORANGE_CODE;
+          else PORTD = RED_CODE;
+        }
+      }
+      else{
+          if(rgb_sensor.b_comp > BLUE_THRESH) PORTD = BLUE_CODE;
+          else PORTD = GREEN_CODE;
+      }
+  }else PORTD = NOTHING_CODE;
+
   
   delay(2000);
 }

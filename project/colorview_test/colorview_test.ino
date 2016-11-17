@@ -15,7 +15,7 @@
 // our RGB -> eye-recognized gamma color
 byte gammatable[256];
 
-#define nothing {1200, 800, 650}
+#define nothing {5500, 4300, 3400}
 #define red_block {1750, 900, 800}
 #define blue_block {1200, 900, 900}
 #define green_block {1300, 900, 700}
