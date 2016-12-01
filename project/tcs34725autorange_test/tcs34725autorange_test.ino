@@ -236,9 +236,9 @@ void loop(void) {
   #define RED_THRESH 11000
   #define GREEN_THRESH 9500
   #define BLUE_THRESH 7000
-  #define YELLOW_THRESH 1400
+  #define YELLOW_THRESH 600
   #define ORANGE_THRESH 14000
-  #define LUX_THRESH 650
+  #define LUX_THRESH 170
   
   //Digital Codes for each of the blocks 
   #define RED_CODE 0x08
