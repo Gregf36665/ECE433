@@ -236,27 +236,36 @@ void loop(void) {
   // blue - 12K
   
   //Digital Codes for each of the blocks 
-  #define RED_CODE 0x08
+  #define RED_CODE 0x0a
   #define GREEN_CODE 0x09
-  #define BLUE_CODE 0x0a
-  #define YELLOW_CODE 0x0b
-  #define ORANGE_CODE 0x0c
+  #define BLUE_CODE 0x08
+  #define YELLOW_CODE 0x0c
+  #define ORANGE_CODE 0x0b
   #define WHITE_CODE 0x0d
   #define NOTHING_CODE 0x0e
 
-  if (rgb_sensor.temp < 2100) {
+if(rgb_sensor.lux < 220){
+  PORTB = NOTHING_CODE;
+}
+else{
+  if (rgb_sensor.temp < 2200 || rgb_sensor.r_comp > 14000) {
     PORTB = ORANGE_CODE;
-  } else if (rgb_sensor.temp < 2800) {
+  } 
+  else if (rgb_sensor.temp < 2800) {
     PORTB = RED_CODE;
-  } else if (rgb_sensor.temp < 3800) {
+  }
+  else if (rgb_sensor.temp < 3800) {
     PORTB = YELLOW_CODE;
-  } else if (rgb_sensor.temp < 4040) {
+  }
+  else if (rgb_sensor.temp < 4040) {
     PORTB = GREEN_CODE;
-  } else if (rgb_sensor.temp < 4800) {
+  }
+  else if (rgb_sensor.temp < 4700) {
     PORTB = WHITE_CODE;
-  } else {
+  }
+  else{
     PORTB = BLUE_CODE;
   }
-  
+}
   delay(1000);
 }
