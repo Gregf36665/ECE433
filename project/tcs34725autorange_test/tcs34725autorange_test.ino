@@ -46,7 +46,7 @@ public:
   uint16_t againx, atime, atime_ms;
   uint16_t r, g, b, c;
   uint16_t ir; 
-  uint16_t r_comp, g_comp, b_comp, c_comp;
+  uint16_t r_comp, g_comp, b_comp, c_comp, temp;
   uint16_t saturation, saturation75;
   float cratio, cpl, ct, lux, maxlux;
   
@@ -143,6 +143,8 @@ void tcs34725::getData(void) {
 
   lux = (TCS34725_R_Coef * float(r_comp) + TCS34725_G_Coef * float(g_comp) + TCS34725_B_Coef * float(b_comp)) / cpl;
   ct = TCS34725_CT_Coef * float(b_comp) / float(r_comp) + TCS34725_CT_Offset;
+
+  temp = tcs.calculateColorTemperature(r_comp, g_comp, b_comp);
 }
 
 tcs34725 rgb_sensor;
@@ -207,10 +209,12 @@ void loop(void) {
   Serial.print(F(" CT:")); 
   Serial.print(rgb_sensor.ct);
   Serial.println(F("K")); 
-
+  
+  Serial.print(F(" Temp:"));
+  Serial.println(rgb_sensor.temp); 
 
   Serial.println(F("Status: ")); 
-  Serial.println(PORTD, HEX); 
+  Serial.println(PORTB, HEX); 
   Serial.println();
   
   //RED
@@ -231,15 +235,6 @@ void loop(void) {
   // green - 6.3K
   // blue - 12K
   
-
-  //Threshold Values for Block Detection
-  #define RED_THRESH 11000
-  #define GREEN_THRESH 9500
-  #define BLUE_THRESH 7000
-  #define YELLOW_THRESH 600
-  #define ORANGE_THRESH 14000
-  #define LUX_THRESH 170
-  
   //Digital Codes for each of the blocks 
   #define RED_CODE 0x08
   #define GREEN_CODE 0x09
@@ -249,23 +244,19 @@ void loop(void) {
   #define WHITE_CODE 0x0d
   #define NOTHING_CODE 0x0e
 
-  if(rgb_sensor.lux > LUX_THRESH){
-      if(rgb_sensor.r_comp > RED_THRESH){
-        if(rgb_sensor.g_comp > GREEN_THRESH){
-          if(rgb_sensor.lux > YELLOW_THRESH)PORTD = YELLOW_CODE;
-          else PORTD = WHITE_CODE;
-        }
-        else{
-          if(rgb_sensor.r_comp > ORANGE_THRESH) PORTD = ORANGE_CODE;
-          else PORTD = RED_CODE;
-        }
-      }
-      else{
-          if(rgb_sensor.b_comp > BLUE_THRESH) PORTD = BLUE_CODE;
-          else PORTD = GREEN_CODE;
-      }
-  }else PORTD = NOTHING_CODE;
-
+  if (rgb_sensor.temp < 2100) {
+    PORTB = ORANGE_CODE;
+  } else if (rgb_sensor.temp < 2800) {
+    PORTB = RED_CODE;
+  } else if (rgb_sensor.temp < 3800) {
+    PORTB = YELLOW_CODE;
+  } else if (rgb_sensor.temp < 4040) {
+    PORTB = GREEN_CODE;
+  } else if (rgb_sensor.temp < 4800) {
+    PORTB = WHITE_CODE;
+  } else {
+    PORTB = BLUE_CODE;
+  }
   
-  delay(2000);
+  delay(1000);
 }

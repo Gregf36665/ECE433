@@ -6,7 +6,7 @@ clear
 alpha_pos = 87.7886;
 tau_pos = 52.1073;
 
-Ts_pos = 1; % Settle in one second
+Ts_pos = 0.5; % Settle in one second
 % Have no overshoot
 zeta_pos = 1;
 
@@ -28,8 +28,8 @@ Ki_pos = (omega_pos^2*p_pos)/alpha_pos;
 alpha_fast = 87.7886;
 tau_fast = 52.1073;
 
-Ts_fast = 1;
-zeta_fast = 1;
+Ts_fast = 0.2;
+zeta_fast = 0.3;
 omega_n_fast = 4/(zeta_fast*Ts_fast);
 
 Ki_fast = omega_n_fast^2/alpha_fast;
@@ -40,8 +40,8 @@ Kp_fast = (2*zeta_fast*omega_n_fast-tau_fast)/(alpha_fast);
 alpha_slow = 66.9379;
 tau_slow = 39.3285;
 
-Ts_slow = 1;
-zeta_slow = 1;
+Ts_slow = 0.2;
+zeta_slow = 0.3;
 omega_n_slow = 4/(zeta_slow*Ts_slow);
 
 Ki_slow = omega_n_slow^2/alpha_slow;
